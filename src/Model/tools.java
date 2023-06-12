@@ -1,15 +1,21 @@
 package Model;
 
+import java.util.*;
+import DAO.toolsDAO;
+import java.sql.SQLException;
+
 public class tools{
 
     private String name;
     private String mark;
     private int cost;
+    private int id;
     
-    public tools(String name, int cost,String mark) {
+    public tools(String name, int cost,String mark,int id) {
         this.name = name;
         this.mark = mark;
         this.cost = cost;
+        this.id = id;
     }
 
     public String getName() {
@@ -34,6 +40,14 @@ public class tools{
     
     public void setMark(String mark){
         this.mark = mark;
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
        
 }
