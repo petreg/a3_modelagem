@@ -130,18 +130,18 @@ public class Inicio extends javax.swing.JFrame {
         menuPrincipalLayout.setHorizontalGroup(
             menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPrincipalLayout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addGroup(menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(button_amigos, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_emprestimos)
-                    .addComponent(button_ferramentas, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_eventos, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_relatorios, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGap(394, 394, 394)
+                .addGroup(menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(button_emprestimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_amigos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_ferramentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_eventos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_relatorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPrincipalLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(338, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(425, 425, 425))
         );
         menuPrincipalLayout.setVerticalGroup(
             menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,9 +165,7 @@ public class Inicio extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(menuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(727, Short.MAX_VALUE))
+            .addComponent(menuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,18 +177,20 @@ public class Inicio extends javax.swing.JFrame {
 
     private void button_emprestimosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_emprestimosActionPerformed
         // TODO add your handling code here:
-        IdlePanel idle = new IdlePanel();
-        idle.setVisible(true);
-        
-        this.getContentPane().add(idle);
+        Emprestimos1 emprestimos = new Emprestimos1();
+        emprestimos.setVisible(true);
     }//GEN-LAST:event_button_emprestimosActionPerformed
 
     private void button_amigosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_amigosActionPerformed
         // TODO add your handling code here:
+        Amigos1 amigos = new Amigos1();
+        amigos.setVisible(true);
     }//GEN-LAST:event_button_amigosActionPerformed
 
     private void button_ferramentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ferramentasActionPerformed
         // TODO add your handling code here:
+        Ferramentas1 ferramentas = new Ferramentas1();
+        ferramentas.setVisible(true);
     }//GEN-LAST:event_button_ferramentasActionPerformed
 
     private void button_eventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_eventosActionPerformed
@@ -199,6 +199,8 @@ public class Inicio extends javax.swing.JFrame {
 
     private void button_relatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_relatoriosActionPerformed
         // TODO add your handling code here:
+        Relatorios1 relatorios = new Relatorios1();
+        relatorios.setVisible(true);
     }//GEN-LAST:event_button_relatoriosActionPerformed
 
     /**

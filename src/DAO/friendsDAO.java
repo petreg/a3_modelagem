@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import Model.friends;
+import Model.Friends;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class friendsDAO {
     
-    public static ArrayList<friends> MyList = new ArrayList<friends>();
+    public static ArrayList<Friends> MyList = new ArrayList<Friends>();
 
     public friendsDAO() {
     }
@@ -49,11 +49,11 @@ public class friendsDAO {
             
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
-            String server = "localhost";
-            String database = "db_A3";
+            String server = "127.0.0.1";
+            String database = "tiozao";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "12345";
+            String password = "root";
 
             connection = DriverManager.getConnection(url, user, password);
 
@@ -82,7 +82,7 @@ public class friendsDAO {
                 int tel = res.getInt("tel");
                 int id = res.getInt("id");
                 
-                friends objeto = new friends(name,tel,id);
+                Friends objeto = new Friends(name,tel,id);
 
                 MyList.add(objeto);
             }
@@ -95,7 +95,7 @@ public class friendsDAO {
         return MyList;
     }
 
-    public boolean InsertFriends(friends objeto) {
+    public boolean InsertFriends(Friends objeto) {
         String sql = "INSERT INTO friends(id,name) VALUES(?,?)";
 
         try {
@@ -127,7 +127,7 @@ public class friendsDAO {
         
         return true;
     }
-    public boolean UpdateFriend(friends objeto) {
+    public boolean UpdateFriend(Friends objeto) {
 
         String sql = "UPDATE friends set name = ? ,tel = ?, WHERE id = ?";
 
@@ -149,9 +149,9 @@ public class friendsDAO {
 
     }
 
-    public friends LoadFriend(int id) {
+    public Friends LoadFriend(int id) {
         
-        friends objeto = new friends();
+        Friends objeto = new Friends();
         objeto.setId(id);
         
         try {

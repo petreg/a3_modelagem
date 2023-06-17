@@ -1,21 +1,20 @@
 package Model;
 
-import java.util.*;
 import DAO.friendsDAO;
 import java.sql.SQLException;
 
-public class friends {
+public class Friends {
 
     private String name;
     private int tel;
     private int id;
     private final friendsDAO dao;
     
-    public friends(){
+    public Friends(){
         this.dao = new friendsDAO();
     }
 
-    public friends(String name, int tel, int id){
+    public Friends(String name, int tel, int id){
         this.name = name;
         this.tel = tel;
         this.id = id;
@@ -46,4 +45,15 @@ public class friends {
         this.id = id;
     }
 
+     public int maiorID() throws SQLException{
+        return dao.maiorID();
+    }  
+        
+     public boolean InsertFriend(String name, int tel) throws SQLException {
+        int id = this.maiorID() + 1;
+        Friends objeto = new Friends(name, tel, id);
+        dao.InsertFriends(objeto);
+        return true;
+
+    }
 }

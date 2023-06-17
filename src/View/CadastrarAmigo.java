@@ -4,17 +4,25 @@
  */
 package View;
 
+import Model.Friends;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Win10
  */
 public class CadastrarAmigo extends javax.swing.JFrame {
 
+    private Friends objAmigo;
     /**
      * Creates new form CadastrarAmigo
      */
     public CadastrarAmigo() {
         initComponents();
+        this.objAmigo = new Friends();
     }
 
     /**
@@ -28,12 +36,12 @@ public class CadastrarAmigo extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         emailLabel = new javax.swing.JLabel();
-        txtfield_email = new javax.swing.JTextField();
+        c_email = new javax.swing.JTextField();
         nomeLabel1 = new javax.swing.JLabel();
-        txtfield_nome1 = new javax.swing.JTextField();
+        c_name = new javax.swing.JTextField();
         emailLabel1 = new javax.swing.JLabel();
-        frmfield_telefone = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        c_tel = new javax.swing.JFormattedTextField();
+        b_salvar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -47,27 +55,32 @@ public class CadastrarAmigo extends javax.swing.JFrame {
         emailLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         emailLabel.setText("e-Mail:");
 
-        txtfield_email.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        c_email.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         nomeLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         nomeLabel1.setText("Nome:");
 
-        txtfield_nome1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        c_name.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         emailLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         emailLabel1.setText("Telefone:");
 
         try {
-            frmfield_telefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
+            c_tel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        frmfield_telefone.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        c_tel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Salvar");
+        b_salvar.setBackground(new java.awt.Color(0, 153, 0));
+        b_salvar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        b_salvar.setForeground(new java.awt.Color(255, 255, 255));
+        b_salvar.setText("Salvar");
+        b_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_salvarActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(204, 0, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -82,16 +95,16 @@ public class CadastrarAmigo extends javax.swing.JFrame {
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(b_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(emailLabel1)
                         .addComponent(nomeLabel1)
                         .addComponent(emailLabel)
-                        .addComponent(txtfield_email, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(frmfield_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtfield_nome1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(c_email, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(c_tel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(c_name, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -100,18 +113,18 @@ public class CadastrarAmigo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(nomeLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtfield_nome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(c_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(emailLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtfield_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(c_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(emailLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(frmfield_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(c_tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(b_salvar)
                     .addComponent(jButton2))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
@@ -139,6 +152,34 @@ public class CadastrarAmigo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void b_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_salvarActionPerformed
+        // TODO add your handling code here:
+        try {
+        String name =  "";
+        int  tel= 0;
+        
+        if (this.c_name.getText().length() < 2) {
+                throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
+            } else {
+                name = this.c_name.getText();
+            }
+        
+         if (this.objAmigo.InsertFriend(name, tel)) {
+                JOptionPane.showMessageDialog(rootPane, "Aluno Cadastrado com Sucesso!");
+
+                // limpa campos da interface
+                this.c_name.setText("");
+             
+            }
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (NumberFormatException erro2) {
+            JOptionPane.showMessageDialog(null, "Informe um numero.");
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastrarAmigo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_b_salvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,14 +217,14 @@ public class CadastrarAmigo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton b_salvar;
+    private javax.swing.JTextField c_email;
+    private javax.swing.JTextField c_name;
+    private javax.swing.JFormattedTextField c_tel;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel emailLabel1;
-    private javax.swing.JFormattedTextField frmfield_telefone;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel nomeLabel1;
-    private javax.swing.JTextField txtfield_email;
-    private javax.swing.JTextField txtfield_nome1;
     // End of variables declaration//GEN-END:variables
 }
