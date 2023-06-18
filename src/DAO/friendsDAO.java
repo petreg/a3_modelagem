@@ -4,7 +4,8 @@
  */
 package DAO;
 
-import Model.friends;
+import Model.Friends;
+import View.Mensagens;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
  *
  * @author Matheus Soares
  */
-public class friendsDAO {
+public class FriendsDAO {
     
-    public static ArrayList<friends> MyList = new ArrayList<friends>();
+    public static ArrayList<Friends> MyList = new ArrayList<Friends>();
 
-    public friendsDAO() {
+    public FriendsDAO() {
     }
 
     public int maiorID() throws SQLException {
@@ -49,11 +50,11 @@ public class friendsDAO {
             
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
-            String server = "localhost";
-            String database = "db_A3";
+            String server = "127.0.0.1";
+            String database = "tiozao";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "12345";
+            String password = "root";
 
             connection = DriverManager.getConnection(url, user, password);
 
@@ -69,7 +70,7 @@ public class friendsDAO {
         }
     }
 
-    public ArrayList getMyList() {
+    public ArrayList getFriends() {
         
         MyList.clear();
 
@@ -77,33 +78,35 @@ public class friendsDAO {
             Statement stmt = this.getConnection().createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM friends");
             while (res.next()) {
-
-                String name = res.getString("name");
-                int tel = res.getInt("tel");
-                int id = res.getInt("id");
                 
-                friends objeto = new friends(name,tel,id);
+                int id = res.getInt("id");
+                String name = res.getString("name");
+                String tel = res.getString("tel");
+                String email = res.getString("email");
+                
+                Friends obj = new Friends(name,tel, email, id);
 
-                MyList.add(objeto);
+                MyList.add(obj);
             }
 
             stmt.close();
 
         } catch (SQLException ex) {
+            new Mensagens( "Ocorreu um erro ao carregar a lista de asmigos.\nContacte o suporte: cod.: DBE-001");
         }
 
         return MyList;
     }
 
-    public boolean InsertFriends(friends objeto) {
-        String sql = "INSERT INTO friends(id,name) VALUES(?,?)";
+    public boolean insertFriends(Friends objeto) {
+        String sql = "INSERT INTO friends(name, email, tel) VALUES(?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConnection().prepareStatement(sql);
 
-            stmt.setInt(2, objeto.getTel());
+            stmt.setString(3, objeto.getTel());
             stmt.setString(1, objeto.getName());
-            stmt.setInt(1, objeto.getId());
+            stmt.setString(2, objeto.getEmail());
             stmt.execute();
             stmt.close();
 
@@ -116,27 +119,29 @@ public class friendsDAO {
     }
 
 
-    public boolean DeleteFriend(int id) {
+    public boolean deleteFriend(int id) {
         try {
             Statement stmt = this.getConnection().createStatement();
             stmt.executeUpdate("DELETE FROM friends WHERE id = " + id);
             stmt.close();            
             
         } catch (SQLException erro) {
+            new Mensagens("Erro ao deletar amigo.");
         }
         
         return true;
     }
-    public boolean UpdateFriend(friends objeto) {
+    public boolean editFriend(Friends objeto) {
 
-        String sql = "UPDATE friends set name = ? ,tel = ?, WHERE id = ?";
+        String sql = "UPDATE friends set name = ? ,email = ?, tel = ? WHERE id = ?";
 
         try {
             PreparedStatement stmt = this.getConnection().prepareStatement(sql);
 
             stmt.setString(1, objeto.getName());
-            stmt.setInt(2, objeto.getTel());
-            stmt.setInt(3, objeto.getId());
+            stmt.setString(2, objeto.getEmail());
+            stmt.setString(3, objeto.getTel());
+            stmt.setInt(4, objeto.getId());
 
             stmt.execute();
             stmt.close();
@@ -149,9 +154,9 @@ public class friendsDAO {
 
     }
 
-    public friends LoadFriend(int id) {
+    public Friends loadFriend(int id) {
         
-        friends objeto = new friends();
+        Friends objeto = new Friends();
         objeto.setId(id);
         
         try {
@@ -160,7 +165,8 @@ public class friendsDAO {
             res.next();
 
             objeto.setName(res.getString("name"));
-            objeto.setTel(res.getInt("tell"));
+            objeto.setTel(res.getString("tel"));
+            objeto.setEmail(res.getString("email"));
             objeto.setId(res.getInt("id"));
 
             stmt.close();            

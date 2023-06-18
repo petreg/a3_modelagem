@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import Model.loan;
+import Model.Loan;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,15 +12,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author Matheus Soares
  */
-public class loanDAO {
-    public static ArrayList<loan> MyList = new ArrayList<loan>();
+public class LoanDAO {
+    public static ArrayList<Loan> MyList = new ArrayList<Loan>();
 
-    public loanDAO() {
+    public LoanDAO() {
     }
 
     public int maiorID() throws SQLException {
@@ -28,7 +29,7 @@ public class loanDAO {
         int maiorID = 0;
         try {
             Statement stmt = this.getConnection().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT MAX(id) id FROM loan");
+            ResultSet res = stmt.executeQuery("SELECT MAX(id) id FROM Loan");
             res.next();
             maiorID = res.getInt("id");
 
@@ -50,11 +51,11 @@ public class loanDAO {
             Class.forName(driver);
 
             
-            String server = "localhost";
-            String database = "db_A3";
+            String server = "127.0.0.1";
+            String database = "tiozao";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "12345";
+            String password = "root";
 
             connection = DriverManager.getConnection(url, user, password);
 
@@ -70,21 +71,25 @@ public class loanDAO {
         }
     }
 
-    public ArrayList getMyList() {
+    public ArrayList getLoans() {
         
         MyList.clear();
 
         try {
             Statement stmt = this.getConnection().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM loan");
+            ResultSet res = stmt.executeQuery("SELECT l.*, t.name as tool_name, f.name as friend_name FROM loans as l INNER JOIN tools as t ON t.id = l.tool_id INNER JOIN friends as f ON f.id = l.friend_id ORDER BY l.id DESC");
             while (res.next()) {
 
                 int tool_id = res.getInt("tool_id");
-                int id_friend = res.getInt("id_friend");
+                int id_friend = res.getInt("friend_id");
                 int id = res.getInt("id");
                 Boolean status = res.getBoolean("status");
-                
-                loan objeto = new loan(tool_id,id_friend,status,id);
+                String friend = res.getString("friend_name");
+                String tool = res.getString("tool_name");
+                Date date = res.getDate("date");
+
+                Loan objeto = new Loan(tool_id, id_friend, status, id, friend, tool, date);
+                               
 
                 MyList.add(objeto);
             }
@@ -97,17 +102,14 @@ public class loanDAO {
         return MyList;
     }
 
-    // Cadastra novo aluno
-    public boolean InsertLoan(loan objeto) {
-        String sql = "INSERT INTO loan(tool_id,id_friend,status,id) VALUES(?,?<?,?)";
+    public boolean insertLoan(Loan objeto) {
+        String sql = "INSERT INTO loans (tool_id,friend_id) VALUES(?,?)";
 
         try {
             PreparedStatement stmt = this.getConnection().prepareStatement(sql);
 
-            stmt.setInt(2, objeto.getId_friend());
-            stmt.setBoolean(3, objeto.getStatus());
-            stmt.setInt(1, objeto.getTool_id());
-            stmt.setInt(4, objeto.getId());
+            stmt.setInt(2, objeto.getFriendId());
+            stmt.setInt(1, objeto.getToolId());
             stmt.execute();
             stmt.close();
 
@@ -120,10 +122,10 @@ public class loanDAO {
     }
 
 
-    public boolean DeleteLoan(int id) {
+    public boolean deleteLoan(int id) {
         try {
             Statement stmt = this.getConnection().createStatement();
-            stmt.executeUpdate("DELETE FROM loan WHERE id = " + id);
+            stmt.executeUpdate("DELETE FROM Loan WHERE id = " + id);
             stmt.close();            
             
         } catch (SQLException erro) {
@@ -131,17 +133,14 @@ public class loanDAO {
         
         return true;
     }
-    public boolean UpdateLoan(loan objeto) {
+    public boolean updateLoan(Loan objeto) {
 
-        String sql = "UPDATE loan set status = ? , WHERE id = ?";
+        String sql = "UPDATE loans set status = 1 WHERE id = ?";
 
         try {
             PreparedStatement stmt = this.getConnection().prepareStatement(sql);
 
-            stmt.setInt(4, objeto.getId());
-            stmt.setInt(1, objeto.getTool_id());
-            stmt.setInt(2, objeto.getId_friend());
-            stmt.setBoolean(3, objeto.getStatus());
+            stmt.setInt(1, objeto.getId());
 
             stmt.execute();
             stmt.close();
@@ -154,19 +153,22 @@ public class loanDAO {
 
     }
 
-    public loan LoadLoan(int tool_id,int friend_id,Boolean status,int id) {
+    public Loan loadLoan(int id) {
         
-        loan objeto = new loan();
+        Loan objeto = new Loan();
         objeto.setId(id);
         
         try {
             Statement stmt = this.getConnection().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM loan WHERE id = " + id);
+            ResultSet res = stmt.executeQuery("SELECT * FROM Loan WHERE id = " + id);
             res.next();
 
-            objeto.setTool_id(res.getInt("tool_id"));
-            objeto.setFriend_id(res.getInt("friend_id"));
+            objeto.setToolId(res.getInt("tool_id"));
+            objeto.setFriendId(res.getInt("friend_id"));
             objeto.setStatus(res.getBoolean("status"));
+            objeto.setFriend(res.getString("friend_name"));
+            objeto.setTool(res.getString("tool_name"));
+            objeto.setData(res.getDate("data"));
             objeto.setId(res.getInt("id"));
 
             stmt.close();            

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package View;
 
 /**
  *
@@ -30,8 +30,6 @@ public class Inicio extends javax.swing.JFrame {
         button_emprestimos = new javax.swing.JButton();
         button_amigos = new javax.swing.JButton();
         button_ferramentas = new javax.swing.JButton();
-        button_eventos = new javax.swing.JButton();
-        button_relatorios = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         tiozao_label = new javax.swing.JLabel();
         do_label = new javax.swing.JLabel();
@@ -63,22 +61,6 @@ public class Inicio extends javax.swing.JFrame {
         button_ferramentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_ferramentasActionPerformed(evt);
-            }
-        });
-
-        button_eventos.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        button_eventos.setText("Eventos");
-        button_eventos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_eventosActionPerformed(evt);
-            }
-        });
-
-        button_relatorios.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        button_relatorios.setText("Relatórios");
-        button_relatorios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_relatoriosActionPerformed(evt);
             }
         });
 
@@ -130,18 +112,16 @@ public class Inicio extends javax.swing.JFrame {
         menuPrincipalLayout.setHorizontalGroup(
             menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPrincipalLayout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addGroup(menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(button_amigos, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_emprestimos)
-                    .addComponent(button_ferramentas, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_eventos, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_relatorios, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGap(394, 394, 394)
+                .addGroup(menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(button_emprestimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_amigos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_ferramentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPrincipalLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(338, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(425, 425, 425))
         );
         menuPrincipalLayout.setVerticalGroup(
             menuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,20 +134,14 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(button_amigos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(button_ferramentas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(button_eventos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(button_relatorios)
-                .addGap(77, 77, 77))
+                .addGap(181, 181, 181))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(menuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(773, Short.MAX_VALUE))
+            .addComponent(menuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,27 +153,21 @@ public class Inicio extends javax.swing.JFrame {
 
     private void button_emprestimosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_emprestimosActionPerformed
         // TODO add your handling code here:
-        IdlePanel idle = new IdlePanel();
-        idle.setVisible(true);
-        
-        this.getContentPane().add(idle);
+        Emprestimos1 emprestimos = new Emprestimos1();
+        emprestimos.setVisible(true);
     }//GEN-LAST:event_button_emprestimosActionPerformed
 
     private void button_amigosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_amigosActionPerformed
         // TODO add your handling code here:
+        Amigos1 amigos = new Amigos1();
+        amigos.setVisible(true);
     }//GEN-LAST:event_button_amigosActionPerformed
 
     private void button_ferramentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ferramentasActionPerformed
         // TODO add your handling code here:
+        Ferramentas1 ferramentas = new Ferramentas1();
+        ferramentas.setVisible(true);
     }//GEN-LAST:event_button_ferramentasActionPerformed
-
-    private void button_eventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_eventosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_button_eventosActionPerformed
-
-    private void button_relatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_relatoriosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_button_relatoriosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,9 +207,7 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_amigos;
     private javax.swing.JButton button_emprestimos;
-    private javax.swing.JButton button_eventos;
     private javax.swing.JButton button_ferramentas;
-    private javax.swing.JButton button_relatorios;
     private javax.swing.JLabel do_label;
     private javax.swing.JLabel empresta_label;
     private javax.swing.JPanel jPanel1;

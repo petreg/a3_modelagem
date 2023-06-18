@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Matheus%20Soares/Documents/NetBeansProjects/A3/src/Model/tools.java</file>
-            <file>file:/C:/Users/Matheus%20Soares/Documents/NetBeansProjects/A3/src/Model/loan.java</file>
-            <file>file:/C:/Users/Matheus%20Soares/Documents/NetBeansProjects/A3/src/DAO/loanDAO.java</file>
-            <file>file:/C:/Users/Matheus%20Soares/Documents/NetBeansProjects/A3/src/DAO/toolsDAO.java</file>
-            <file>file:/C:/Users/Matheus%20Soares/Documents/NetBeansProjects/A3/src/DAO/friendsDAO.java</file>
-            <file>file:/C:/Users/Matheus%20Soares/Documents/NetBeansProjects/A3/src/Model/friends.java</file>
+            <file>file:/Users/luizregis/Sites/a3_modelagem/src/Model/Friends.java</file>
+            <file>file:/Users/luizregis/Sites/a3_modelagem/src/View/CadastrarAmigo.java</file>
+            <file>file:/Users/luizregis/Sites/a3_modelagem/src/View/Amigos1.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,27 +1,36 @@
 package Model;
 
 import java.util.*;
-import DAO.toolsDAO;
+import DAO.ToolsDAO;
 import java.sql.SQLException;
 
-public class tools{
+public class Tools{
 
     private String name;
-    private String mark;
-    private int cost;
+    private String brand;
+    private float value;
+    private boolean status;
     private int id;
-    private final toolsDAO dao;
+    private final ToolsDAO dao;
     
-    public tools(){
-        this.dao = new toolsDAO();
+    public Tools(){
+        this.dao = new ToolsDAO();
     }
     
-    public tools(String name, int cost,String mark,int id) {
+    public Tools(String name, String brand, float value) {
         this.name = name;
-        this.mark = mark;
-        this.cost = cost;
+        this.brand = brand;
+        this.value = value;
+        this.dao = new ToolsDAO();
+    }
+    
+    public Tools(String name, String brand, float value, boolean status, int id) {
+        this.name = name;
+        this.brand = brand;
+        this.value = value;
+        this.status = status;
         this.id = id;
-        this.dao = new toolsDAO();
+        this.dao = new ToolsDAO();
     }
 
     public String getName() {
@@ -32,20 +41,20 @@ public class tools{
         this.name = name;
     }
 
-    public int getCost() {
-        return cost;
+    public float getValue() {
+        return value;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
+    public void setValue(float value) {
+        this.value = value;
     }
     
-    public String getMark(){
-        return mark;
+    public String getBrand(){
+        return brand;
     }
     
-    public void setMark(String mark){
-        this.mark = mark;
+    public void setBrand(String brand){
+        this.brand = brand;
     }
     
     public int getId(){
@@ -55,5 +64,38 @@ public class tools{
     public void setId(int id) {
         this.id = id;
     }
-       
+    
+    public boolean getStatus(){
+        return status;
+    }
+    
+    public void setId(boolean status) {
+        this.status = status;
+    }
+    
+    public boolean insertTool(String name, String brand, float value) throws SQLException {
+        Tools objeto = new Tools(name, brand, value);
+        dao.insertTool(objeto);
+        return true;
+    }
+    
+    public boolean editTool(int id, String name, String brand, float value) {
+        Tools objeto = new Tools(name, brand, value, status, id);
+        dao.editTool(objeto);
+        return true;
+    }
+    
+    public boolean deleteTool(int id) {
+        dao.deleteTool(id);
+        return true;
+    }
+    
+    public ArrayList getTools() {
+        return dao.getTools();
+    }
+    
+    public ArrayList getLoanTools() {
+        return dao.getLoanTools();
+    }
+
 }
