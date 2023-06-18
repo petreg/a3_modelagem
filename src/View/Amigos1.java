@@ -4,17 +4,25 @@
  */
 package View;
 
+import javax.swing.JOptionPane;
+import Model.Friends;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author petreg
  */
 public class Amigos1 extends javax.swing.JFrame {
 
+    private Friends objAmigo;
     /**
      * Creates new form Amigos1
      */
     public Amigos1() {
         initComponents();
+        this.objAmigo = new Friends();
+        this.loadData();
     }
 
     /**
@@ -28,32 +36,39 @@ public class Amigos1 extends javax.swing.JFrame {
 
         amigoPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table_amigos = new javax.swing.JTable();
+        t_amigos = new javax.swing.JTable();
         amigoLabel = new javax.swing.JLabel();
         button_adicionar = new javax.swing.JButton();
         button_editar = new javax.swing.JButton();
         button_remover = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         amigoPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        table_amigos.setModel(new javax.swing.table.DefaultTableModel(
+        t_amigos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nome", "e-mail", "Telefone"
+                "id", "Nome", "e-mail", "Telefone"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -64,9 +79,10 @@ public class Amigos1 extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table_amigos.setColumnSelectionAllowed(true);
-        table_amigos.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(table_amigos);
+        t_amigos.setColumnSelectionAllowed(true);
+        t_amigos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(t_amigos);
+        t_amigos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         amigoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         amigoLabel.setText("Amigos Cadastrados");
@@ -162,16 +178,72 @@ public class Amigos1 extends javax.swing.JFrame {
 
     private void button_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_editarActionPerformed
         // TODO add your handling code here:
-        CadastrarAmigo cadastrar = new CadastrarAmigo();
-        cadastrar.setVisible(true);
+        try{
+            int id = 0;
+            if (this.t_amigos.getSelectedRow() == -1) {
+                throw new Mensagens("Você deve selecionar um amigo para editar");
+            } else {
+                id = Integer.parseInt(this.t_amigos.getValueAt(this.t_amigos.getSelectedRow(), 0).toString());
+            }
+            CadastrarAmigo cadastrar = new CadastrarAmigo(id);
+            cadastrar.setVisible(true);
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        }
+        
     }//GEN-LAST:event_button_editarActionPerformed
 
     private void button_removerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_removerActionPerformed
         // TODO add your handling code here:
-        RemoverAmigo remover = new RemoverAmigo();
-        remover.setVisible(true);
+        try {
+            int id = 0;
+            if (this.t_amigos.getSelectedRow() == -1) {
+                throw new Mensagens("Você deve selecionar um amigo para APAGAR");
+            } else {
+                id = Integer.parseInt(this.t_amigos.getValueAt(this.t_amigos.getSelectedRow(), 0).toString());
+            }
+
+            int resposta_usuario = JOptionPane.showConfirmDialog(null, "Este proceso não pode ser revertido.\nVOCÊ TEM CERTEZA QUE QUER APAGAR?");
+
+            if (resposta_usuario == 0) {// clicou em SIM
+
+                // envia os dados para o Aluno processar
+                if (this.objAmigo.deleteFriend(id)) {
+                    JOptionPane.showMessageDialog(rootPane, "Dado apagado com sucesso!");
+
+                }
+
+            }
+
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        }
+        this.loadData();
+        
     }//GEN-LAST:event_button_removerActionPerformed
 
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        this.loadData();
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    @SuppressWarnings("unchecked")
+    public void loadData() {
+
+        DefaultTableModel tModelo = (DefaultTableModel) this.t_amigos.getModel();
+        tModelo.setNumRows(0);
+
+        ArrayList<Friends> list = new ArrayList<>();
+        list = objAmigo.getFriends();
+
+        for (Friends amigo : list) {
+            tModelo.addRow(new Object[]{
+                amigo.getId(),
+                amigo.getName(),
+                amigo.getTel(),
+                amigo.getEmail()
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -214,6 +286,6 @@ public class Amigos1 extends javax.swing.JFrame {
     private javax.swing.JButton button_editar;
     private javax.swing.JButton button_remover;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable table_amigos;
+    private javax.swing.JTable t_amigos;
     // End of variables declaration//GEN-END:variables
 }

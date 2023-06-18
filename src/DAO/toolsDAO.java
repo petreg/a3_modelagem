@@ -5,7 +5,7 @@
 package DAO;
 
 
-import Model.tools;
+import Model.Tools;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,10 +18,10 @@ import java.util.ArrayList;
  *
  * @author Matheus Soares
  */
-public class toolsDAO {
-    public static ArrayList<tools> MyList = new ArrayList<tools>();
+public class ToolsDAO {
+    public static ArrayList<Tools> MyList = new ArrayList<Tools>();
 
-    public toolsDAO() {
+    public ToolsDAO() {
     }
 
     public int maiorID() throws SQLException {
@@ -49,13 +49,11 @@ public class toolsDAO {
             
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
-
-            
-            String server = "localhost";
-            String database = "db_A3";
+            String server = "127.0.0.1";
+            String database = "tiozao";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "12345";
+            String password = "root";
 
             connection = DriverManager.getConnection(url, user, password);
 
@@ -66,12 +64,12 @@ public class toolsDAO {
             return null;
 
         } catch (SQLException e) {
-            System.out.println("Nao foi possivel conectar");
+            System.out.println("Nao foi possivel conectar" + e.getMessage());
             return null;
         }
     }
 
-    public ArrayList getMyList() {
+    public ArrayList getTools() {
         
         MyList.clear();
 
@@ -81,11 +79,40 @@ public class toolsDAO {
             while (res.next()) {
 
                 String name = res.getString("name");
-                String mark = res.getString("mark");
-                int cost = res.getInt("cost");
+                String brand = res.getString("brand");
+                float value = res.getFloat("value");
+                boolean status = res.getBoolean("status");
                 int id = res.getInt("id");
                 
-                tools objeto = new tools(name,cost,mark,id);
+                Tools objeto = new Tools(name, brand, value, status, id);
+
+                MyList.add(objeto);
+            }
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+        }
+
+        return MyList;
+    }
+    
+    public ArrayList getLoanTools() {
+        
+        MyList.clear();
+
+        try {
+            Statement stmt = this.getConnection().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT *, (SELECT COUNT(*) from loans as l where l.status = 0 and l.tool_id = t.id limit 1) as emprestimo FROM tools as t HAVING emprestimo = 0");
+            while (res.next()) {
+
+                String name = res.getString("name");
+                String brand = res.getString("brand");
+                float value = res.getFloat("value");
+                boolean status = res.getBoolean("status");
+                int id = res.getInt("id");
+                
+                Tools objeto = new Tools(name, brand, value, status, id);
 
                 MyList.add(objeto);
             }
@@ -99,16 +126,15 @@ public class toolsDAO {
     }
 
     // Cadastra novo aluno
-    public boolean InsertTool(tools objeto) {
-        String sql = "INSERT INTO tools(name,cost,mark,id) VALUES(?,?<?,?)";
+    public boolean insertTool(Tools objeto) {
+        String sql = "INSERT INTO tools(name,brand, value) VALUES(?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConnection().prepareStatement(sql);
 
             stmt.setString(1, objeto.getName());
-            stmt.setInt(2, objeto.getCost());
-            stmt.setString(3, objeto.getMark());
-            stmt.setInt(4, objeto.getId());
+            stmt.setFloat(3, objeto.getValue());
+            stmt.setString(2, objeto.getBrand());
             stmt.execute();
             stmt.close();
 
@@ -121,7 +147,7 @@ public class toolsDAO {
     }
 
 
-    public boolean DeleteTool(int id) {
+    public boolean deleteTool(int id) {
         try {
             Statement stmt = this.getConnection().createStatement();
             stmt.executeUpdate("DELETE FROM tools WHERE id = " + id);
@@ -132,17 +158,18 @@ public class toolsDAO {
         
         return true;
     }
-    public boolean UpdateTool(tools objeto) {
+    public boolean editTool(Tools objeto) {
 
-        String sql = "UPDATE tools set status = ? , WHERE id = ?";
+        String sql = "UPDATE tools set name = ?, brand = ?, value = ?, status = ? WHERE id = ?";
 
         try {
             PreparedStatement stmt = this.getConnection().prepareStatement(sql);
 
             stmt.setString(1, objeto.getName());
-            stmt.setString(3, objeto.getMark());
-            stmt.setInt(2, objeto.getCost());
-            stmt.setInt(4, objeto.getId());
+            stmt.setString(2, objeto.getBrand());
+            stmt.setFloat(3, objeto.getValue());
+            stmt.setBoolean(4, objeto.getStatus());
+            stmt.setInt(5, objeto.getId());
 
             stmt.execute();
             stmt.close();
@@ -155,9 +182,9 @@ public class toolsDAO {
 
     }
 
-    public tools Loadtools(String name,int cost,String mark,int id) {
+    public Tools getTool(int id) {
         
-        tools objeto = new tools();
+        Tools objeto = new Tools();
         objeto.setId(id);
         
         try {
@@ -166,8 +193,30 @@ public class toolsDAO {
             res.next();
 
             objeto.setName(res.getString("name"));
-            objeto.setCost(res.getInt("cost"));
-            objeto.setMark(res.getString("Mark"));
+            objeto.setValue(res.getFloat("value"));
+            objeto.setBrand(res.getString("brand"));
+            objeto.setId(res.getInt("id"));
+
+            stmt.close();            
+            
+        } catch (SQLException erro) {
+        }
+        return objeto;
+    }
+    
+    public Tools loadFriend(int id) {
+        
+        Tools objeto = new Tools();
+        objeto.setId(id);
+        
+        try {
+            Statement stmt = this.getConnection().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT * FROM tools WHERE id = " + id);
+            res.next();
+
+            objeto.setName(res.getString("name"));
+            objeto.setBrand(res.getString("brand"));
+            objeto.setValue(res.getFloat("value"));
             objeto.setId(res.getInt("id"));
 
             stmt.close();            

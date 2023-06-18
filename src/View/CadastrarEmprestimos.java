@@ -4,6 +4,8 @@
  */
 package View;
 
+import Model.Friends;
+import Model.Tools;
 import Model.Loan;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -13,16 +15,21 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Matheus Soares
  */
-public class Emprestimos1 extends javax.swing.JFrame {
+public class CadastrarEmprestimos extends javax.swing.JFrame {
     
+    private Friends objAmigo;
+    private Tools objTool;
     private Loan objLoan;
     /**
      * Creates new form emprestimos1
      */
-    public Emprestimos1() {
+    public CadastrarEmprestimos() {
         initComponents();
+        this.objAmigo = new Friends();
+        this.objTool = new Tools();
         this.objLoan = new Loan();
-        this.loadData();
+        this.loadFriends();
+        this.loadTools();
     }
 
     /**
@@ -37,39 +44,33 @@ public class Emprestimos1 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         idlePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        t_loan = new javax.swing.JTable();
+        t_amigo = new javax.swing.JTable();
         selecioneOperacao = new javax.swing.JLabel();
-        b_emprestar = new javax.swing.JButton();
-        b_devolver = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        t_ferramenta = new javax.swing.JTable();
+        b_confirmar = new javax.swing.JButton();
+        b_cancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
-            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
-                formWindowGainedFocus(evt);
-            }
-            public void windowLostFocus(java.awt.event.WindowEvent evt) {
-            }
-        });
 
         idlePanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        t_loan.setModel(new javax.swing.table.DefaultTableModel(
+        t_amigo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "#", "Amigo", "Ferramenta", "Data", "Devolvido"
+                "#", "Amigo", "E-mail", "Telefone"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false
+                true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -80,39 +81,62 @@ public class Emprestimos1 extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        t_loan.setColumnSelectionAllowed(true);
-        t_loan.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(t_loan);
-        t_loan.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        t_amigo.setColumnSelectionAllowed(true);
+        t_amigo.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(t_amigo);
+        t_amigo.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         selecioneOperacao.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        selecioneOperacao.setText("Empréstimos Realizados");
+        selecioneOperacao.setText("Fazer Emprestimo");
 
-        b_emprestar.setBackground(new java.awt.Color(0, 153, 51));
-        b_emprestar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        b_emprestar.setForeground(new java.awt.Color(255, 255, 255));
-        b_emprestar.setText("Emprestar");
-        b_emprestar.addActionListener(new java.awt.event.ActionListener() {
+        t_ferramenta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "#", "Ferramenta", "Marca", "Valor"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        t_ferramenta.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(t_ferramenta);
+        t_ferramenta.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        b_confirmar.setBackground(new java.awt.Color(0, 153, 51));
+        b_confirmar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        b_confirmar.setForeground(new java.awt.Color(255, 255, 255));
+        b_confirmar.setText("Confirmar");
+        b_confirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_emprestarActionPerformed(evt);
+                b_confirmarActionPerformed(evt);
             }
         });
 
-        b_devolver.setBackground(new java.awt.Color(0, 153, 153));
-        b_devolver.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        b_devolver.setForeground(new java.awt.Color(255, 255, 255));
-        b_devolver.setText("Devolver");
-        b_devolver.addActionListener(new java.awt.event.ActionListener() {
+        b_cancelar.setBackground(new java.awt.Color(255, 10, 15));
+        b_cancelar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        b_cancelar.setForeground(new java.awt.Color(255, 255, 255));
+        b_cancelar.setText("Devolver");
+        b_cancelar.setActionCommand("Cancelar");
+        b_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_devolverActionPerformed(evt);
-            }
-        });
-
-        jButton4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton4.setText("Ver Detalhes");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                b_cancelarActionPerformed(evt);
             }
         });
 
@@ -123,30 +147,30 @@ public class Emprestimos1 extends javax.swing.JFrame {
             .addGroup(idlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(idlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 952, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(idlePanelLayout.createSequentialGroup()
                         .addGroup(idlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(selecioneOperacao)
                             .addGroup(idlePanelLayout.createSequentialGroup()
-                                .addComponent(b_emprestar, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(b_confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(b_devolver, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 349, Short.MAX_VALUE)))
+                                .addComponent(b_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         idlePanelLayout.setVerticalGroup(
             idlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idlePanelLayout.createSequentialGroup()
                 .addComponent(selecioneOperacao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(92, 92, 92)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(idlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(b_emprestar, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                    .addComponent(b_devolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(b_confirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(b_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -185,70 +209,81 @@ public class Emprestimos1 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void b_emprestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_emprestarActionPerformed
-        // TODO add your handling code here:
-        CadastrarEmprestimos cadastrar = new CadastrarEmprestimos();
-        cadastrar.setVisible(true);
-    }//GEN-LAST:event_b_emprestarActionPerformed
-
-    private void b_devolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_devolverActionPerformed
+    private void b_confirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_confirmarActionPerformed
+       
          try {
-            int id = 0;
-            if (this.t_loan.getSelectedRow() == -1) {
-                throw new Mensagens("Você deve selecionar um emprestimo para devolver.");
+            int friend_id = 0;
+            int tool_id = 0;
+            if (this.t_amigo.getSelectedRow() == -1) {
+                throw new Mensagens("Você deve selecionar um amigo.");
             } else {
-                boolean status =  Boolean.parseBoolean(this.t_loan.getValueAt(this.t_loan.getSelectedRow(), 4).toString());
-                if (status) {
-                    throw new Mensagens("Esse imprestimo já foi devolvido.");
-                }
-                id = Integer.parseInt(this.t_loan.getValueAt(this.t_loan.getSelectedRow(), 0).toString());
+                friend_id = Integer.parseInt(this.t_amigo.getValueAt(this.t_amigo.getSelectedRow(), 0).toString());
+            }
+            
+            if (this.t_ferramenta.getSelectedRow() == -1) {
+                throw new Mensagens("Você deve selecionar uma ferramenta.");
+            } else {
+                tool_id = Integer.parseInt(this.t_ferramenta.getValueAt(this.t_ferramenta.getSelectedRow(), 0).toString());
             }
 
-            int resposta_usuario = JOptionPane.showConfirmDialog(null, "Este proceso não pode ser revertido.\nDeseja marcar como DEVOLVIDO?");
+            int resposta_usuario = JOptionPane.showConfirmDialog(null, "Realizar emprestimo?");
 
             if (resposta_usuario == 0) {// clicou em SIM
-
-                // envia os dados para o Aluno processar
-                if (this.objLoan.updateLoan(id)) {
-                    JOptionPane.showMessageDialog(rootPane, "Emprestimo devolvido com sucesso com sucesso!");
-
+                
+                if ( objLoan.insertLoan(tool_id, friend_id)) {
+                    JOptionPane.showMessageDialog(rootPane, "Emprestimo realizado com sucesso!");
+                    this.setVisible(false);
                 }
-
             }
 
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         }
-        this.loadData();
-    }//GEN-LAST:event_b_devolverActionPerformed
+    }//GEN-LAST:event_b_confirmarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void b_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_b_cancelarActionPerformed
 
-    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        this.loadData();
-    }//GEN-LAST:event_formWindowGainedFocus
-
+    
     @SuppressWarnings("unchecked")
-    public void loadData() {
+    public void loadFriends() {
 
-        DefaultTableModel tModelo = (DefaultTableModel) this.t_loan.getModel();
+        DefaultTableModel tModelo = (DefaultTableModel) this.t_amigo.getModel();
         tModelo.setNumRows(0);
 
-        ArrayList<Loan> list = new ArrayList<>();
-        list = objLoan.getLoans();
+        ArrayList<Friends> list = new ArrayList<>();
+        list = objAmigo.getFriends();
 
-        for (Loan loan : list) {
+        for (Friends amigo : list) {
             tModelo.addRow(new Object[]{
-                loan.getId(),
-                loan.getFriend(),
-                loan.getTool(),
-                loan.getData(),
-                loan.getStatus()
+                amigo.getId(),
+                amigo.getName(),
+                amigo.getEmail(),
+                amigo.getTel()
             });
         }
     }
+    
+    @SuppressWarnings("unchecked")
+    public void loadTools() {
+
+        DefaultTableModel tModelo = (DefaultTableModel) this.t_ferramenta.getModel();
+        tModelo.setNumRows(0);
+
+        ArrayList<Tools> list = new ArrayList<>();
+        list = objTool.getLoanTools();
+
+        for (Tools ferramenta : list) {
+            tModelo.addRow(new Object[]{
+                ferramenta.getId(),
+                ferramenta.getName(),
+                ferramenta.getBrand(),
+                ferramenta.getValue()
+            });
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -266,33 +301,36 @@ public class Emprestimos1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Emprestimos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarEmprestimos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Emprestimos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarEmprestimos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Emprestimos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarEmprestimos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Emprestimos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarEmprestimos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Emprestimos1().setVisible(true);
+                new CadastrarEmprestimos().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton b_devolver;
-    private javax.swing.JButton b_emprestar;
+    private javax.swing.JButton b_cancelar;
+    private javax.swing.JButton b_confirmar;
     private javax.swing.JPanel idlePanel;
-    private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel selecioneOperacao;
-    private javax.swing.JTable t_loan;
+    private javax.swing.JTable t_amigo;
+    private javax.swing.JTable t_ferramenta;
     // End of variables declaration//GEN-END:variables
 }

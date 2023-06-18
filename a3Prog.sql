@@ -45,13 +45,13 @@ INSERT INTO `friends` VALUES (1,'Matheus',48996578373),(2,'João vitor',48999999
 UNLOCK TABLES;
 
 --
--- Table structure for table `loan`
+-- Table structure for table `Loan`
 --
 
-DROP TABLE IF EXISTS `loan`;
+DROP TABLE IF EXISTS `Loan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `loan` (
+CREATE TABLE `Loan` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idFriends` int NOT NULL,
   `idTools` int NOT NULL,
@@ -66,13 +66,13 @@ CREATE TABLE `loan` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `loan`
+-- Dumping data for table `Loan`
 --
 
-LOCK TABLES `loan` WRITE;
-/*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,1,1,1),(2,2,2,1);
-/*!40000 ALTER TABLE `loan` ENABLE KEYS */;
+LOCK TABLES `Loan` WRITE;
+/*!40000 ALTER TABLE `Loan` DISABLE KEYS */;
+INSERT INTO `Loan` VALUES (1,1,1,1),(2,2,2,1);
+/*!40000 ALTER TABLE `Loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
