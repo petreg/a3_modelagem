@@ -19,6 +19,14 @@ CREATE TABLE `friends` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `tools` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `brand` varchar(255) DEFAULT NULL,
+  `value` float DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `loans` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -32,15 +40,6 @@ CREATE TABLE `loans` (
   CONSTRAINT `loans_ibfk_1` FOREIGN KEY (`tool_id`) REFERENCES `tools` (`id`),
   CONSTRAINT `loans_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `friends` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `tools` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `brand` varchar(255) DEFAULT NULL,
-  `value` float DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 ```
 Os dados para conexão com o banco são:
